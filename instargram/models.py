@@ -7,6 +7,7 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()  # 내용.
     photo = models.ImageField(blank=True, upload_to='instargram/post/%Y/%m/%d')
+    tag_set = models.ManyToManyField('Tag', blank=True)
     is_public = models.BooleanField(default=False, verbose_name='공개여부')
     created_at = models.DateTimeField(auto_now_add=True)  # 데이터를 추가한 시간
     updated_at = models.DateTimeField(auto_now=True)  # 현재 시간
@@ -24,3 +25,10 @@ class Comment(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)  # 데이터를 추가한 시간
     updated_at = models.DateTimeField(auto_now=True)  # 현재 시간
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
